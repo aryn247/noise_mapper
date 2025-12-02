@@ -1,201 +1,209 @@
-/* General Body */
+/* Import modern font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #f5f5f5;
+    padding: 0;
+    background: #f0f2f5;
     color: #333;
+    transition: all 0.3s ease;
 }
 
-/* Header */
+/* Header / Hero */
 header {
     text-align: center;
-    margin-bottom: 30px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    position: relative;
 }
 
 header h1 {
-    font-size: 2.5em;
-    margin-bottom: 5px;
+    font-size: 3em;
+    margin: 0;
 }
 
 header p {
     font-size: 1.2em;
-    color: #555;
+    margin-top: 10px;
+    color: #e0e0ff;
 }
 
-/* Section Cards */
+#themeToggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #fff;
+    color: #333;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Sections */
 .section {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 100%;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    margin: 20px auto;
+    border-radius: 20px;
+    max-width: 900px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
 /* Buttons */
 button {
-    padding: 12px 25px;
-    font-size: 16px;
     border: none;
-    border-radius: 8px;
+    outline: none;
     cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    transition: all 0.2s ease;
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 12px 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-button:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
+#startBtn {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: #fff;
+    font-size: 16px;
 }
 
-/* Status Box */
+#startBtn.recording {
+    background: linear-gradient(135deg, #34eb5b, #00b894);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(0,255,0,0.3); }
+    50% { box-shadow: 0 0 25px rgba(0,255,0,0.6); }
+    100% { box-shadow: 0 0 10px rgba(0,255,0,0.3); }
+}
+
+/* Status */
 #status {
     margin-top: 15px;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 16px;
-    padding: 10px;
-    border-radius: 8px;
-    background-color: #eef;
+    display: flex;
+    align-items: center;
 }
 
-/* Audio Player */
+#status::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4CAF50;
+    margin-right: 10px;
+}
+
+/* Audio */
 audio {
-    display: block;
-    margin-top: 20px;
+    margin-top: 15px;
     width: 100%;
 }
 
 /* Map */
 #map {
-    height: 500px;
     width: 100%;
-    border-radius: 12px;
-    margin-top: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    height: 500px;
+    border-radius: 20px;
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative; /* Ensures absolute-positioned children are positioned relative to the map */
 }
 
-/* Map Legend */
-#map-legend {
-    margin-top: 10px;
-    font-size: 14px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.legend-color {
-    display: inline-block;
-    width: 15px;
-    height: 15px;
-    margin-right: 5px;
-    margin-left: 15px;
-    vertical-align: middle;
-    border-radius: 3px;
-}
-
-.red { background-color: red; }
-.yellow { background-color: yellow; }
-.green { background-color: green; }
-
-/* Map Controls */
+/* Map Controls Floating */
 #map-controls {
-    margin-bottom: 10px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: row; /* Changed to horizontal (row) instead of vertical (column) */
+    gap: 10px;
+    z-index: 1000; /* Ensure it stays on top */
 }
 
 #map-controls button {
-    margin-right: 10px;
-    background-color: #2196F3;
+    background: rgba(33,150,243,0.9);
+    color: #fff;
+    font-size: 14px;
 }
 
-#map-controls button:hover {
-    background-color: #0b7dda;
+/* Map Legend Floating */
+#map-legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px; /* Moved from left to right to avoid overlap with controls */
+    background: rgba(225,225,225,0.9);
+    padding: 10px 15px;
+    border-radius: 12px;
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    z-index: 1000; /* Ensure it stays on top */
+    max-width: 200px; /* Prevent it from being too wide */
 }
 
-/* Dark Mode Styles */
+.legend-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+}
+
+/* Dark Mode */
 body.dark-mode {
-    background-color: #121212;
+    background: #121212;
     color: #e0e0e0;
 }
 
 body.dark-mode .section {
-    background-color: #1e1e1e;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    background: rgba(30,30,30,0.9);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-body.dark-mode button {
-    background-color: #bb86fc;
+body.dark-mode #themeToggle {
+    background: #bb86fc;
     color: #121212;
 }
 
-body.dark-mode button:hover {
-    background-color: #9a67ea;
-}
-
-body.dark-mode #status {
-    background-color: #222;
-}
-
-body.dark-mode #map-legend {
-    color: #e0e0e0;
-}
-
-/* Responsive Design */
-main {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
+/* Responsive */
 @media screen and (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    header h1 {
-        font-size: 1.8em;
-    }
-
-    header p {
-        font-size: 1em;
-    }
-
-    #map {
-        height: 350px;
-    }
-
-    button {
-        padding: 10px 18px;
-        font-size: 14px;
-    }
-
-    #map-legend {
-        font-size: 13px;
-    }
-
-    #map-controls button {
-        margin-bottom: 5px;
-        padding: 8px 12px;
-        font-size: 13px;
+    header h1 { font-size: 2.2em; }
+    header p { font-size: 1em; }
+    #map { height: 400px; }
+    #map-controls { 
+        flex-direction: row; 
+        top: 5px; 
+        left: 5px; 
+        gap: 5px; 
+        z-index: 1000;
     }
 }
 
 @media screen and (max-width: 480px) {
-    #map {
-        height: 300px;
+    header h1 { font-size: 1.8em; }
+    #map { height: 300px; }
+    #status { font-size: 14px; }
+    button { padding: 10px 15px; font-size: 14px; }
+    #map-controls { 
+        top: 5px; 
+        left: 5px; 
+        gap: 3px; 
+        z-index: 1000;
     }
-
-    #status {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    #map-legend {
-        font-size: 12px;
-    }
-
-    #map-controls button {
-        font-size: 12px;
-        padding: 6px 10px;
+    #map-controls button { font-size: 12px; padding: 6px 10px; }
+    #map-legend { 
+        bottom: 5px; 
+        right: 5px; 
+        padding: 5px 8px; 
+        font-size: 11px; 
+        z-index: 1000;
     }
 }

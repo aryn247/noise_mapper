@@ -6,17 +6,18 @@
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <!-- Leaflet JS -->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Leaflet JS (load first) -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Leaflet Heatmap -->
     <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Header / Hero -->
     <header>
         <h1>Urban Noise Mapper</h1>
         <p>Real-time environmental noise recording and mapping</p>
@@ -25,7 +26,7 @@
 
     <main>
         <!-- Recorder Section -->
-        <div class="section">
+        <div class="section" id="recorder-section">
             <h2>Noise Recorder</h2>
             <button id="startBtn">Start Recording (10s)</button>
             <p id="status">Click the button to record noise.</p>
@@ -33,20 +34,24 @@
         </div>
 
         <!-- Map Section -->
-        <div class="section">
+        <div class="section" id="map-section">  <!-- Removed inline style="position: relative;" -->
             <h2>Noise Map</h2>
-             <!-- Toggle Buttons -->
-    <div id="map-controls">
-        <button id="showPins">Pins</button>
-        <button id="showHeat">Heatmap</button>
-        <button id="showBoth">Both</button>
-    </div>
 
-    <div id="map"></div>
+            <!-- Map Controls (floating) -->
+            <div id="map-controls">
+                <button id="showPins">Pins</button>
+                <button id="showHeat">Heatmap</button>
+                <button id="showBoth">Both</button>
+            </div>
+
+            <!-- Map Container -->
+            <div id="map"></div>
+
+            <!-- Map Legend (floating) -->
             <div id="map-legend">
-                <span class="legend-color red"></span> High Noise (≥70 dB)
-                <span class="legend-color yellow"></span> Medium Noise (55-70 dB)
-                <span class="legend-color green"></span> Low Noise (<55 dB)
+                <div class="legend-color red"></div>High Noise
+                <div class="legend-color yellow"></div>Medium Noise
+                <div class="legend-color green"></div>Low Noise
             </div>
         </div>
     </main>
