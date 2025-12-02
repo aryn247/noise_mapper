@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Urban Noise Mapper</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Urban Noise Mapper – Basic Recorder</h2>
+
+    <button id="startBtn">Start Recording (10s)</button>
+    <p id="status">Click the button to record noise.</p>
+
+    <audio id="playback" controls></audio>
+
+    <h3>Noise Map</h3>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
