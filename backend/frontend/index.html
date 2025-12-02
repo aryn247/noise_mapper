@@ -6,22 +6,52 @@
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Leaflet Heatmap -->
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Urban Noise Mapper – Basic Recorder</h2>
+    <header>
+        <h1>Urban Noise Mapper</h1>
+        <p>Real-time environmental noise recording and mapping</p>
+        <button id="themeToggle">Dark Mode</button>
+    </header>
 
-    <button id="startBtn">Start Recording (10s)</button>
-    <p id="status">Click the button to record noise.</p>
+    <main>
+        <!-- Recorder Section -->
+        <div class="section">
+            <h2>Noise Recorder</h2>
+            <button id="startBtn">Start Recording (10s)</button>
+            <p id="status">Click the button to record noise.</p>
+            <audio id="playback" controls></audio>
+        </div>
 
-    <audio id="playback" controls></audio>
+        <!-- Map Section -->
+        <div class="section">
+            <h2>Noise Map</h2>
+             <!-- Toggle Buttons -->
+    <div id="map-controls">
+        <button id="showPins">Pins</button>
+        <button id="showHeat">Heatmap</button>
+        <button id="showBoth">Both</button>
+    </div>
 
-    <h3>Noise Map</h3>
-    <div id="map" style="height: 500px; width: 100%;"></div>
+    <div id="map"></div>
+            <div id="map-legend">
+                <span class="legend-color red"></span> High Noise (≥70 dB)
+                <span class="legend-color yellow"></span> Medium Noise (55-70 dB)
+                <span class="legend-color green"></span> Low Noise (<55 dB)
+            </div>
+        </div>
+    </main>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>

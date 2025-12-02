@@ -1,39 +1,56 @@
-# noise_processing.py
-import librosa
 import numpy as np
-from pydub import AudioSegment
-import os
-from pydub.utils import which
+import librosa
 
-# Ensure ffmpeg is accessible
-os.environ["PATH"] += os.pathsep + r"C:\ffmpeg-2025-11-24-git-c732564d2e-full_build\bin"
-
-def load_audio(path):
+def apply_a_weighting(y, sr):
     """
-    Loads an audio file and converts to WAV if necessary.
-    Returns audio samples and sample rate.
+    Apply A-weighting filter to the audio signal in frequency domain.
+    Returns the weighted signal in time domain.
     """
-    # If file is webm, mp4, or any unsupported format, convert to wav
-    if not path.endswith('.wav'):
-        wav_path = path.rsplit('.', 1)[0] + '.wav'
-        AudioSegment.from_file(path).export(wav_path, format='wav')
-        path = wav_path
-
-    # Load using librosa
-    y, sr = librosa.load(path, sr=None)
-    return y, sr
+    # Ensure mono
+    if y.ndim > 1:
+        y = librosa.to_mono(y)
+    
+    # FFT
+    freqs = np.fft.rfftfreq(len(y), 1/sr)
+    fft_vals = np.fft.rfft(y)
+    
+    # A-weighting curve (IEC 61672-1 standard)
+    f_sq = freqs**2
+    ra = (
+        (12194**2 * f_sq**2)
+        / (
+            (f_sq + 20.6**2)
+            * np.sqrt((f_sq + 107.7**2) * (f_sq + 737.9**2))
+            * (f_sq + 12194**2)
+        )
+    )
+    
+    # Apply weighting (magnitude only for simplicity, but preserve phase)
+    a_weighted_fft = fft_vals * ra
+    y_weighted = np.fft.irfft(a_weighted_fft, n=len(y))
+    return y_weighted.real  # Ensure real output
 
 def calculate_noise_level(path):
     """
-    Calculates average noise level (in dB) of an audio file.
+    Calculates noise level using RMS energy with A-weighting and SPL calibration.
     """
     try:
-        y, sr = load_audio(path)
-        # RMS = Root Mean Square energy
-        rms = np.sqrt(np.mean(y ** 2))
-        # Convert to decibels
-        db = 20 * np.log10(rms + 1e-9)
-        return db
+        y, sr = librosa.load(path, sr=None)
+        
+        # Apply A-weighting
+        y_weighted = apply_a_weighting(y, sr)
+        
+        # RMS of weighted signal
+        rms = np.sqrt(np.mean(y_weighted ** 2))
+        
+        # Convert to dB SPL (with reference adjustment)
+        # +60 is approximate for mic calibration; adjust based on testing
+        db_spl = 20 * np.log10(rms + 1e-9) + 60
+        
+        # Floor at 0 dB to avoid negatives
+        db_spl = max(db_spl, 0.0)
+        
+        return float(db_spl)
     except Exception as e:
-        print("Error reading audio:", e)
-        return None
+        print(f"Error processing {path}: {e}")
+        return None  # Or raise, depending on your server handling
